@@ -5,8 +5,17 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * UserAuthService
+ */
 class UserAuthService 
 {
+    /**
+     * Register user
+     *
+     * @param array $aData
+     * @return mixed
+     */
     public function registerUser($aData)
     {
         $this->validateRequiredData($aData);
@@ -22,6 +31,12 @@ class UserAuthService
         }
     }
 
+    /**
+     * Login user
+     *
+     * @param array $aData
+     * @return mixed
+     */
     public function loginUser($aData)
     {
         $this->validateRequiredData($aData);
@@ -38,6 +53,12 @@ class UserAuthService
         }
     }
 
+    /**
+     * Validate required data
+     *
+     * @param array $aData
+     * @return mixed
+     */
     private function validateRequiredData($aData)
     {
         $oValidator = Validator::make($aData, [

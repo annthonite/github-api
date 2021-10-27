@@ -6,8 +6,17 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * GithubUser Service
+ */
 class GithubUserService 
 {
+    /**
+     * Get github user from github API
+     *
+     * @param object $aData
+     * @return object
+     */
     public function getGithubUser($aData)
     {
         $aUserList = explode(',', $aData->users);
@@ -41,6 +50,12 @@ class GithubUserService
         return response(['user_details' => $aUserListDetails]);
     }
 
+    /**
+     * Check name from result if existing
+     *
+     * @param array $aUserDetails
+     * @return mixed
+     */
     private function checkNameExists($aUserDetails)
     {
         if (array_key_exists('login', $aUserDetails) === true && array_key_exists('name', $aUserDetails) === true) {
@@ -57,11 +72,22 @@ class GithubUserService
         return false;
     }
 
+    /**
+     * Check for cached data
+     *
+     * @return mixed
+     */
     private function checkCacheData()
     {
         return Cache::get('github-info-' . auth()->id());
     }
 
+    /**
+     * Cache data
+     *
+     * @param array $aUserListDetails
+     * @return void
+     */
     private function cacheData($aUserListDetails)
     {
         Cache::put('github-info-' . auth()->id(), $aUserListDetails, 120);
