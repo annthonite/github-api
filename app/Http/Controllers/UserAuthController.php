@@ -19,11 +19,23 @@ class UserAuthController
 
     public function registerUser()
     {
-        return response($this->oUserAuthService->registerUser($this->oRequest));
+        try {
+            return response($this->oUserAuthService->registerUser($this->oRequest->all()));
+        } catch (\InvalidArgumentException $oException) {
+            return response(['errors' => json_decode($oException->getMessage())], $oException->getCode());
+        } catch (\Exception $oException) {
+            return response(['error' => $oException->getMessage()], $oException->getCode());
+        }
     }
 
     public function loginUser(Request $request)
     {
-        return response($this->oUserAuthService->loginUser($this->oRequest));
+        try {
+            return response($this->oUserAuthService->loginUser($this->oRequest->all()));
+        } catch (\InvalidArgumentException $oException) {
+            return response(['errors' => json_decode($oException->getMessage())], $oException->getCode());
+        } catch (\Exception $oException) {
+            return response(['error' => $oException->getMessage()], $oException->getCode());
+        }
     }
 }

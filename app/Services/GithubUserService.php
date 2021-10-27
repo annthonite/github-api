@@ -22,6 +22,7 @@ class GithubUserService
             return response(['user_details' => $aReturnedCached]);
         }
 
+        Log::debug('Make github request. user_id = ' . auth()->id());
         foreach ($aUserList as $aUser) {
             $oResponse = Http::get('https://api.github.com/users/' . $aUser)->body();
             Log::debug($oResponse);
